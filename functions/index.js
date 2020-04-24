@@ -53,21 +53,52 @@ return res.json(screams);
 });
 
 
+//auth middleware
+const FBAuth = (req,res,next) =>
+{
+    let idToken;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ' )) {
+      idToken = req.headers.authorization.split('Bearer ')[1];
 
+    }
+    else{
+        console.error('no token found');
+        return res.status(403).json({error :'Unauthorized'});
+
+    }
+    admin.auth().verifyIdToken(idToken)
+    .then(decodedToken =>{
+        req.user = decodedToken;
+        console.log(decodedToken);
+        return db.collection('users')
+        .where('userId', '==', req.user.uid)
+        .limit(1)
+        .get();
+    })
+    .then(data =>{ 
+        req.user.handle =data.docs[0].data().handle;
+        return next();
+    })
+    .catch(err =>
+        {
+            console.error('error while verifying token',err);
+        return res.status(403).json(err);
+            })
+}
 
 
 //new scream route
    app.post('/scream',FBAuth, (req, res) => {
-       if (req.method !== 'POST') {
-           return res.status(400).json({error: 'method not allowed'});
+    //    if (req.method !== 'POST') {
+    //        return res.status(400).json({error: 'method not allowed'});
            
-       }
+    //    }
        if (req.body.body.trim()==='') {
           return res.status(400).json({body: 'body  must not be empty'}); 
        }
   const newScream ={
       body:req.body.body,
-      userHandle: req.body.userHandle,
+      userHandle: req.user.handle,
       createdAt:new Date().toISOString()
   };
 //add new scream
