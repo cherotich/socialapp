@@ -6,7 +6,7 @@ const app = require('express')();
 const {Fbauth } = require('./util/fbAuth.js');
 
 const {getAllScreams,postOneScream} = require('./handlers/screams');
-const {signup,login} = require('./handlers/users');
+const {signup,login,imageUpload} = require('./handlers/users');
 
 
 //scream route
@@ -17,5 +17,8 @@ app.post('/scream',Fbauth,postOneScream);
        app.post('/signup',signup);
        //login route
        app.post('/login',login);   
+       //upload image
+       app.post('/user/image',Fbauth,imageUpload);  
+       
        exports.api = functions.region('europe-west1').https.onRequest(app);
 
