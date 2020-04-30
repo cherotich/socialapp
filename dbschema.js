@@ -1,3 +1,5 @@
+import { createDeflateRaw } from "zlib";
+
 let db ={
 
     users:[
@@ -24,6 +26,14 @@ let db ={
         likeCount: 5,
         commentCount :3
     }
+    ],
+    comments:[
+        {
+           userHandle:'limo',
+           screamId:'8o0hqoEjV9n3zUHDB3jn',
+           body:'Scream3 by limo',
+           createdAt:'2020-04-29T18:24:37.224Z'
+        }
     ]
 };
 
