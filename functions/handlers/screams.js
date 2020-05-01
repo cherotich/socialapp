@@ -63,7 +63,7 @@ res.json({message: `document ${doc.id} created successfully`});
 
        };
 
-       //getscream
+       //getscream 
        exports.getScream = (req,res)=>
        {
            let screamData = {};
@@ -73,9 +73,9 @@ res.json({message: `document ${doc.id} created successfully`});
            .then((doc)=> 
             {
                 console.
-            log(doc.data);
+            log(doc);
                 if (!doc.exists) {
-                    return res.status(403).json({message:'scream not found'});
+                    return res.status(404).json({message:'scream not found'});
 
                 }
                 screamData = doc.data();
@@ -83,14 +83,14 @@ res.json({message: `document ${doc.id} created successfully`});
                 return db
                 .collection('comments')
                 .orderBy('createdAt','desc')
-                .where('screamId','==',req.params.screamid)
+                .where('screamId','==',req.params.screamId)
                 .get();
 
             })
             .then(data =>
                 {
                     screamData.comments = [];
-                    data.forEach(doc=>
+                    data.forEach((doc)=>
                         {
                             screamData.comments.push(doc.data());
                         });
