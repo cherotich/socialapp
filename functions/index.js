@@ -4,7 +4,8 @@ const {Fbauth } = require('./util/fbAuth.js');
 const {
     getAllScreams,
     getScream,
-    postOneScream
+    postOneScream,
+    commentOnScream
 } = require('./handlers/screams');
 const {
     signup,
@@ -12,6 +13,7 @@ const {
     imageUpload,
     addUserDetails,  
     getAuthenticatedUser
+    
 } = require('./handlers/users');
 
 //user routes
@@ -25,6 +27,7 @@ app.get('/user', Fbauth,getAuthenticatedUser);
 app.get('/screams',getAllScreams );
 app.post('/scream',Fbauth,postOneScream);
 app.get('/scream/:screamId',getScream);
+app.post('/scream/:screamId/comment',Fbauth,commentOnScream);
 
 //todo delete scream,like a scream,unlike a scream,comment on scream,
 
