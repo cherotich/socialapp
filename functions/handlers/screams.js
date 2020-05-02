@@ -44,14 +44,20 @@ exports.getAllScreams = (req,res) => {
   const newScream ={
       body:req.body.body,
       userHandle: req.user.handle,
-      createdAt:new Date().toISOString()
+      userImage: req.user.imageUrl, 
+      createdAt:new Date().toISOString(),
+      likeCount:0,
+      commentCount:0
   };
 //add new scream
 db
   .collection('screams')
   .add(newScream)
-  .then(doc =>
+  .then((doc) =>
     {
+        const resScream =  newScream;
+        resScream.screamId = doc.id;
+        res.json(newScream);
 res.json({message: `document ${doc.id} created successfully`});
 
     })
@@ -63,7 +69,7 @@ res.json({message: `document ${doc.id} created successfully`});
 
        };
 
-       //getscream 
+       //getscream one
        exports.getScream = (req,res)=>
        {
            let screamData = {};
@@ -126,7 +132,10 @@ db
     if(!doc.exists){
         return res.status(404).json({error:'scream does not exist anymore'})
     }
-    return db.collection('comments').add(newComment)
+    return doc.ref.update({commentCount: doc.data().commentCount + 1});
+})
+.then(()=>{
+    return db.collection('comments').add(newComment);
 })
 .then(()=>
 {
@@ -139,4 +148,106 @@ db
 })
 
 
-       }
+       };
+
+//like scream
+  exports.likeScream = (req,res) =>
+  {
+const likeDocumet = db.collection('likes')
+.where('userHandle','==',req.user.handle)
+.where('screamId','==',req.params.screamId).limit(1);
+
+const screamDocument = db.doc(`/screams/${req.params.screamId}`);
+let screamData ;
+screamDocument.get()
+.then(doc =>
+    {
+        if(doc.exists)
+        {
+            screamData = doc.data();
+            screamData.screamId = doc.id;
+            return likeDocumet.get();
+        }
+else{
+    res.status(404).json({error: 'scream not found'})
+}
+    })
+    .then(data=>
+        {
+            if(data.empty){
+                return db.collection('likes').add({
+                    screamId:req.params.screamId,
+                    userHandle:req.user.handle
+                })
+                .then(()=>
+                {
+                    screamData.likeCount++;
+                    return screamDocument.update({likeCount:screamData.likeCount});
+                })
+                .then(()=>{
+                    return res.json(screamData);
+                })
+            }
+            else{
+                return res.status(400).json({error:'scream already liked'});
+            }
+        })
+        .catch(err =>
+            {
+                console.log(err);
+                res.status(500).json({error: err.code})
+            })
+   };
+
+
+   //unlike comment
+   exports.unlikeScream=(req,res)=> {
+
+
+    const likeDocumet = db.collection('likes')
+    .where('userHandle', '==',req.user.handle)
+    .where('screamId','==',req.params.screamId).limit(1);
+    
+    const screamDocument = db.doc(`/screams/${req.params.screamId}`);
+    let screamData ;
+    screamDocument.get()
+    .then(doc =>
+        {
+            if(doc.exists)
+            {
+                screamData = doc.data();
+                screamData.screamId = doc.id;
+                return likeDocumet.get();
+            }
+    else{
+        res.status(404).json({error: 'scream not found'})
+    }
+        })
+        .then(data=>
+            {
+                if(data.empty){
+
+                    return res.status(400).json({error:'scream not liked'});
+                   
+                }
+                else{
+                    return db.doc(`/likes/${data.docs[0].id}`).delete()
+                    .then(()=>
+                    {
+                        screamData.likeCount--;
+                        return screamDocument.update({likeCount:screamData.likeCount});
+                    })
+                    .then(()=>{
+                        res.json(screamData);
+                    })
+                    
+                }
+            })
+            .catch(err =>
+                {
+                    console.log(err);
+                    res.status(500).json({error: err.code})
+                })
+
+
+   };
