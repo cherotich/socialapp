@@ -251,3 +251,32 @@ else{
 
 
    };
+   
+
+   //delete scream
+   exports.deleteScream = (req,res) =>
+   {
+const document = db.doc(`/screams/${req.params.screamId}`);
+document.get().then(doc=>
+    {
+        if (!doc.exists) {
+         return res.status(404).json({error: 'scream not found'});   
+        }
+        if (doc.data().userHandle!== req.user.handle) {
+           return res.status(404).json({error:'unauthorized'});
+
+        }
+        else{
+            return document.delete();
+        }
+    })
+    .then(()=>
+    {
+        res.json({message:'scream deleted successfully'});
+    })
+    .catch(err =>
+        {
+            console.error(err);
+            return res.status(500).json({error:err.code});
+        })
+   };
