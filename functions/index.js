@@ -7,6 +7,7 @@ const {
     postOneScream,
     commentOnScream,
     unlikeScream,
+    deleteScream,
     likeScream
 } = require('./handlers/screams');
 const {
@@ -32,6 +33,7 @@ app.get('/scream/:screamId',getScream);
 app.post('/scream/:screamId/comment',Fbauth,commentOnScream);
 app.get('/scream/:screamId/like', Fbauth, likeScream);
 app.get('/scream/:screamId/unlike', Fbauth, unlikeScream);
+app.delete('/scream/:screamId', Fbauth,deleteScream)
 //todo delete scream,like a scream,unlike a scream,comment on scream,
 
 
