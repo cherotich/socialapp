@@ -17,7 +17,9 @@ const {
     login,
     imageUpload,
     addUserDetails,  
-    getAuthenticatedUser
+    getAuthenticatedUser,
+    getUserDetails,
+    markNotificationsRead
     
 } = require('./handlers/users');
 
@@ -27,6 +29,8 @@ const {
  app.post('/user/image',Fbauth,imageUpload);  
 app.post('/user', Fbauth,addUserDetails)    
 app.get('/user', Fbauth,getAuthenticatedUser);
+app.get('/user/:handle', getUserDetails);
+app.post('/notifications',Fbauth, markNotificationsRead);
 
 //scream routes
 app.get('/screams',getAllScreams );
