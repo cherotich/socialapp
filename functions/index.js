@@ -1,6 +1,8 @@
 const functions = require('firebase-functions');
 const app = require('express')();
 const {Fbauth } = require('./util/fbAuth.js');
+
+const {db} = require('./util/admin');
 const {
     getAllScreams,
     getScream,
@@ -39,4 +41,95 @@ app.delete('/scream/:screamId', Fbauth,deleteScream)
 
 
 exports.api = functions.region('europe-west1').https.onRequest(app);
+
+exports.createNotificationOnLike = functions
+.region('europe-west1')
+.firestore
+.document('likes/{id}')
+.onCreate((snapshot)=>
+{
+db.doc(`/screams/${snapshot.data().screamId}`)
+.get()
+.then(doc=>
+    {
+        if (doc.exists) {
+            const notificationsLike = {
+                createdAt: new Date().toISOString(),
+                recipient : doc.data().userHandle,
+                sender: snapshot.data().userHandle,
+                type : 'like',
+                read: false,
+                screamId: doc.id
+            };
+            return db.doc(`/notifications/${snapshot.id}`)
+.set({notificationsLike});
+        }
+    })
+    .then(()=>
+    {
+        return;
+    })
+    .catch(err=>
+        {
+            console.error(err);
+           
+            // res.status(500).json({error: err.code});
+        });
+});
+
+
+exports.deleteNotificationOnUnlike =functions
+.region('europe-west1')
+.firestore
+.document('likes/{id}')
+.onDelete((snapshot)=>{
+    db.doc(`/notifications/${snapshot.id}`)
+    .delete()
+    .then(()=>{
+        return;
+    })
+    .catch(err=>
+        {
+            console.error(err);
+            return;
+        });
+} );
+
+
+exports.createNotificationOnComment = functions
+.region('europe-west1')
+.firestore
+.document('comments/{id}')
+.onCreate((snapshot)=>
+{
+
+
+db.doc(`/screams/${snapshot.data().screamId}`).get()
+.then(doc=>
+    {
+        if (doc.exists) {
+            const notificationComment ={
+                createdAt: new Date().toISOString(),
+                recipient : doc.data().userHandle,
+                sender: snapshot.data().userHandle,
+                type : 'comment',
+                read: false,
+                screamId: doc.id
+            }
+            return db.doc(`/notifications/${snapshot.id}`)
+.set({ notificationComment})
+        }
+    })
+    .then(()=>
+    {
+        return;
+    })
+    .catch(err=>
+        {
+            console.error(err);
+            return;
+        });
+
+});
+
 
