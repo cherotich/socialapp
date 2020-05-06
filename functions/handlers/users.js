@@ -56,7 +56,7 @@ exports.signup = (req,res) => {
                  return res.status(400).json({email: 'email already in use'});                 
              }
              else{
-                 return res.status(500).json({error: err.code});
+                 return res.status(500).json({general: "something went wrong please try again"});
              }            
          });
     }
@@ -83,12 +83,9 @@ exports.signup = (req,res) => {
             return res.json({token});
         }).catch(err=>{
          console.error(err);
-            if (err.code==='auth/wrong-password') {
+          
              return res.status(403).json({general: 'Wrong credentials, please try again later'});
-            }
-            else{
-             return res.status(500).json({error: err.code});
-            }              
+                                  
         }) ;      
     }
 
@@ -103,7 +100,7 @@ db.doc(`/users/${req.user.handle}`).update(userDetails)
 })
 .catch(err => {
     console.error(err);
-     return res.status(500).json({error:err.code});
+    return res.status(500).json({error:err.code});
 });
 };
 
