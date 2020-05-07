@@ -37,6 +37,17 @@ let db ={
     ]
 };
 
+
+notifications: [
+    {
+        recipient: 'user',
+        sende: 'limo',
+        read: 'true | false',
+        screamId: 'ftqargd',
+        type: 'like | comment',
+        createdAt :'2020-04-22T17:07:02.022Z'
+    }
+]
 const userDetails ={
     //Redux data
     credentials :{ 
