@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Link from 'react-router-dom/NavLink';
+import {Link} from 'react-router-dom';
 //MUI components
 import  AppBar from '@material-ui/core/AppBar'
 import  Toolbar from '@material-ui/core/Toolbar'
