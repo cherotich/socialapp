@@ -7,6 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
+import circularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 
 const styles ={
 form:{
@@ -22,7 +27,16 @@ TextField:{
     margin: '10px auto 10px auto'
 },
 button:{
-  marginTop:  20
+  marginTop:  20,
+  position: 'relative'
+},
+customError:{
+    color: 'red',
+    fontSize:'0.8rem',
+    marginTop:10
+},
+progress:{
+    position: 'absolute'
 }
 }
 
@@ -51,21 +65,21 @@ class login extends Component {
 email:this.state.email,
 password:this.state.password
 
-        }
-        axios.post('/login')
+        };
+        axios.post('/login',userData)
         .then(res=>{
             console.log(res.data);
-            loading.setState({
+            this.setState({
                 loading:false
             });
             this.props.history.push('/');
         })
         .catch(err=>{
             this.setState({
-errors:err.res.data,
+errors:err.response.data,
 loading:false
-            })
-        })
+            });
+        });
     };
     handleChange =(event)=>{
 this.setState({
@@ -86,32 +100,49 @@ this.setState({
            </Typography>
            <form noValidate onSubmit={this.handleSubmit}>
                <TextField id="email"
-                name="email" type ="email"
+                name="email" 
+                type ="email"
                  label ="Email"
-                 className={classes.TextField}
+                 className={classes.textField}
                  helperText ={errors.email}
                  error ={errors.email ?  true: false}
                value ={this.state.email} 
                onChange ={this.handleChange}
                 fullWidth/>
-           </form>
-           <TextField id="password" 
+        
+           <TextField
+            id="password" 
            name="password" 
            type ="password" 
            label ="Password" 
-           className={classes.TextField}
+           className={classes.textField}
            helperText ={errors.password}
            error ={errors.password ?  true: false}
            value ={this.state.password} 
            onChange ={this.handleChange}
             fullWidth/>
-           
-           <Button type ="submit" 
+           {errors.general &&(
+               <Typography variant ="body2" className= {classes.customError}>
+                   {errors.general}
+               </Typography>
+
+           )}
+           <Button 
+           type ="submit" 
            variant="contained" 
            color="primary" 
-           className={classes.Button} >
+           className={classes.button}
+           disabled={loading} >
                Login
+               {loading &&(
+                   <CircularProgress size ={30} className ={classes.progress}>
+
+                   </CircularProgress>
+               )}
            </Button>
+<br/>
+           <small> Dont have a account? Signup<Link to ="/signup"> here</Link></small>
+           </form>
            </Grid>
            <Grid item sm/>   
        </Grid>
