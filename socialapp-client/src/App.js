@@ -25,10 +25,10 @@ const decodedToken = jwtDecode(token);
 if(decodedToken.exp *1000<Date.now()){
 
   window.location.href='/login'
-authenticated ='false'
+authenticated =false;
 }
 else {
-  authenticated='true'
+  authenticated=true;
 }
 }
 
@@ -45,8 +45,8 @@ class App extends Component {
 
 <Switch>
   <Route exact path = "/" component ={home}/>
-  <AuthRoute exact path = "/login" component ={login} authenthicated ={authenthicated}/>
-  <AuthRoute exact path = "/signup" component ={signup} authenthicated ={authenthicated}/>
+  <AuthRoute exact path = "/login" component ={login} authenticated ={authenticated}/>
+  <AuthRoute exact path = "/signup" component ={signup} authenticated ={authenticated}/>
 </Switch>
         </div>
         </Router>
