@@ -4,13 +4,13 @@ import Grid from '@material-ui/core/Grid';
 import Scream from '../components/Scream';
 
 export class home extends Component {
-    _isMounted = false;
+      _isMounted = false;
     
   state= {
       screams:null
   }
     componentDidMount(){
-        _isMounted = true;
+        this._isMounted = true;
       axios.get('/screams')
       .then(res =>{
           console.log(res.data)
