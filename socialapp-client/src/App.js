@@ -6,7 +6,7 @@ import './App.css';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
-import themeFile from './util/theme';
+import themeFile from './util/Theme';
 //components
 import Navbar from './components/Navbar';
 
