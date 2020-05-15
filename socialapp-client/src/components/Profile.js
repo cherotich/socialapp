@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
-import EditDetails from './EditDetails'
+
+import EditDetails from './EditDetails';
+
+
+
 
 
 //MUI
@@ -14,12 +18,15 @@ import Typography from '@material-ui/core/Typography';
 import MuiLink from '@material-ui/core/Link';
 import Tooltip from '@material-ui/core/Tooltip';
 
+import MyButton from '../util/MyButton';
+
 //icons
 import LocationOn from '@material-ui/icons/LocationOn';
 import LinkIcon from '@material-ui/icons/Link';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import EditIcon from '@material-ui/icons/Edit';
-import KeyboardReturn from '@material-ui/icons/KeyboardReturn';
+
+import KeyBoardReturn from '@material-ui/icons/KeyboardReturn';
 
 
 //redux
@@ -129,6 +136,10 @@ let profileMarkup = !loading ? (authenticated ? (
 </IconButton>
 
   </Tooltip>
+
+  <MyButton tip="Edit profile picture" 
+  
+  ></MyButton>
    </div>
    <hr/>
 
@@ -166,7 +177,15 @@ let profileMarkup = !loading ? (authenticated ? (
 <span>Joined {dayjs(createdAt).format('MMM YYYY')}
 </span>
 
+<EditDetails/>
 </div>
+
+<Tooltip placement="top" title="Logout">
+    <IconButton onClick={this.handleLogout}>
+        <KeyBoardReturn color ="primary"/>
+    </IconButton>
+</Tooltip>
+=======
 
 <Tooltip title="Logout" placement="top">
 
