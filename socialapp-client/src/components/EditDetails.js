@@ -16,8 +16,6 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
 
-
-
 const styles = {
     palette:{
         primary:{

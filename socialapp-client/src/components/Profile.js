@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import {Link} from 'react-router-dom';
 import dayjs from 'dayjs';
+
 import EditDetails from './EditDetails';
+
+
+
 
 
 //MUI
@@ -21,7 +25,9 @@ import LocationOn from '@material-ui/icons/LocationOn';
 import LinkIcon from '@material-ui/icons/Link';
 import CalendarToday from '@material-ui/icons/CalendarToday';
 import EditIcon from '@material-ui/icons/Edit';
-import KeyBoardReturn from '@material-ui/icons/KeyboardReturn'
+
+import KeyBoardReturn from '@material-ui/icons/KeyboardReturn';
+
 
 //redux
 import {connect} from 'react-redux';
@@ -99,6 +105,7 @@ handleEditPicture =() =>{
 handleLogout=()=>{
     this.props.logoutUser();
 }
+
     render() {
 
         const {classes,user:{credentials:{handle,createdAt,imageUrl,bio,website,location},
@@ -172,11 +179,24 @@ let profileMarkup = !loading ? (authenticated ? (
 
 <EditDetails/>
 </div>
+
 <Tooltip placement="top" title="Logout">
     <IconButton onClick={this.handleLogout}>
         <KeyBoardReturn color ="primary"/>
     </IconButton>
 </Tooltip>
+=======
+
+<Tooltip title="Logout" placement="top">
+
+<IconButton onClick={this.handleLogout}>
+    <KeyboardReturn color="primary"></KeyboardReturn>
+</IconButton>
+
+</Tooltip>
+
+<EditDetails/>
+
     </div>
 </Paper>
 ) 
