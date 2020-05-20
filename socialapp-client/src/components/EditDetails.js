@@ -15,6 +15,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
+import MyButton from '../util/MyButton';
 
 const styles = {
     palette:{
@@ -110,12 +111,10 @@ handleChange =(event)=>{
         const {classes} = this.props;
                 return (
          <Fragment>
-<Tooltip title ="Edit details" placement="top">
-<IconButton onClick={this.handleOpen} className={classes.button}>
-<EditIcon color ="primary"/>
-</IconButton>
 
-</Tooltip>
+<MyButton tip="Edit details" onClick={this.handleOpen} btnClassName={classes.button} >
+    <EditIcon color ="primary"/>
+    </MyButton>
 <Dialog
 open={this.state.open}
 onClose={this.handleClose}
