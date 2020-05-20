@@ -128,18 +128,18 @@ let profileMarkup = !loading ? (authenticated ? (
  id ="imageInput"
  hidden="hidden"
   onChange = {this.handleImageChange}/>
-  <Tooltip title="Edit profile picture" placement="top">
+  {/* <Tooltip title="Edit profile picture" placement="top">
   <IconButton onClick ={this.handleEditPicture } className="button">
 
 <EditIcon color="primary"/>
 
 </IconButton>
 
-  </Tooltip>
+  </Tooltip> */}
 
-  <MyButton tip="Edit profile picture" 
-  
-  ></MyButton>
+  <MyButton tip="Edit profile picture" onClick={this.handleEditPicture } btnClassName={classes.button} >
+  <EditIcon color="primary"/>
+    </MyButton>
    </div>
    <hr/>
 
@@ -177,23 +177,19 @@ let profileMarkup = !loading ? (authenticated ? (
 <span>Joined {dayjs(createdAt).format('MMM YYYY')}
 </span>
 
-<EditDetails/>
-</div>
 
+</div>
 <Tooltip placement="top" title="Logout">
     <IconButton onClick={this.handleLogout}>
         <KeyBoardReturn color ="primary"/>
     </IconButton>
 </Tooltip>
-=======
 
-<Tooltip title="Logout" placement="top">
 
-<IconButton onClick={this.handleLogout}>
-    <KeyboardReturn color="primary"></KeyboardReturn>
-</IconButton>
-
-</Tooltip>
+{/* 
+<MyButton tip="Logout" onClick={this.handleLogout} btnClassName={classes.button} >
+<KeyboardReturn color="primary"></KeyboardReturn>
+    </MyButton> */}
 
 <EditDetails/>
 
