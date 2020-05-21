@@ -10,7 +10,7 @@ export const getScreams = () => dispatch=>{
     .then(then =>{
         dispatch({
             type:SET_SCREAMS,
-            payload: resizeBy.data
+            payload: res.data
         })
     })
     .catch(err =>{
