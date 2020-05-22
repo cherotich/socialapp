@@ -3,27 +3,33 @@ import axios from "axios";
 import Grid from "@material-ui/core/Grid";
 import Scream from "../components/Scream";
 import Profile from "../components/Profile";
+
 import PropTypes from "prop-types";
 
+
+
 import { connect } from "react-redux";
-import { getScreams } from ".../redux/actions/dataActions";
+import { getScreams } from "../redux/actions/dataActions";
 
 export class home extends Component {
-  _isMounted = false;
+  // _isMounted = false;
 
   componentDidMount() {
-    this.props.getScreams;
+    this.props.getScreams();
   }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+  // componentWillUnmount() {
+  //   this._isMounted = false;
+  // }
 
   render() {
     const { screams, loading } = this.props.data;
-    let recentScreamsMarkUp = loading ? (
+    let recentScreamsMarkUp = !loading ? (
       screams.map((scream) => 
-        <Scream key={scream.screamId} scream={scream} />
-      )
+      //console.log(scream.screamId);
+
+        <Scream key={scream.screamid} scream={scream} />
+      
+        )
     ) : 
       <p> Loading ....</p>;
     return (
