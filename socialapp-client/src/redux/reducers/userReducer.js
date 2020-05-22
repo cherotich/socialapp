@@ -47,12 +47,13 @@ export default function(state =initialState,action){
                                screamId: action.payload.screamId
                            }
                        ]
-                   }
+                   };
                    case UNLIKE_SCREAM:
                        return {
                            ...state,
-                           likes:state.likes.filter(like=> like.screamId===action.payload.screamId)
-                       }
+                           likes:state.likes.filter(
+                               like=> like.screamId !== action.payload.screamId)
+                       };
            
         default:
             return state;
