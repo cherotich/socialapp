@@ -11,7 +11,7 @@ exports.getAllScreams = (req,res) => {
      let screams = [];
  data.forEach(doc =>{
      screams.push({
-         screamid: doc.id,
+         screamId: doc.id,
          body: doc.data().body,
          userHandle: doc.data().userHandle,
          createdAt: doc.data().createdAt,
@@ -86,7 +86,7 @@ res.json({message: `document ${doc.id} created successfully`});
 
                 }
                 screamData = doc.data();
-                screamData.screamid = doc.id;
+                screamData.screamId = doc.id;
                 return db
                 .collection('comments')
                 .orderBy('createdAt','desc')
